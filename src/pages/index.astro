@@ -1,11 +1,76 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Login from '../components/Login.astro';
+import Register from '../components/Register.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Login/Registro - Lista de Tareas">
+	<main>
+		<h1>Bienvenido a la Lista de Tareas</h1>
+		<nav>
+			<button id="loginBtn" class="active">Iniciar Sesión</button>
+			<button id="registerBtn">Registrarse</button>
+		</nav>
+		<div id="authForms">
+			<div id="loginForm">
+				<Login />
+			</div>
+			<div id="registerForm" style="display: none;">
+				<Register />
+			</div>
+		</div>
+	</main>
 </Layout>
+
+<style>
+	main {
+		max-width: 400px;
+		margin: 0 auto;
+		padding: 20px;
+		font-family: Arial, sans-serif;
+	}
+	h1 {
+		color: #333;
+		text-align: center;
+	}
+	nav {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+	nav button {
+		padding: 10px 20px;
+		background-color: #f0f0f0;
+		border: 1px solid #ddd;
+		margin: 0 5px;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+	nav button:hover, nav button.active {
+		background-color: var(--accent);
+		color: white;
+	}
+</style>
+
+<script>
+	const loginBtn = document.getElementById('loginBtn');
+	const registerBtn = document.getElementById('registerBtn');
+	const loginForm = document.getElementById('loginForm');
+	const registerForm = document.getElementById('registerForm');
+
+	loginBtn.addEventListener('click', () => {
+		loginForm.style.display = 'block';
+		registerForm.style.display = 'none';
+		loginBtn.classList.add('active');
+		registerBtn.classList.remove('active');
+	});
+
+	registerBtn.addEventListener('click', () => {
+		loginForm.style.display = 'none';
+		registerForm.style.display = 'block';
+		registerBtn.classList.add('active');
+		loginBtn.classList.remove('active');
+	});
+</script>
+

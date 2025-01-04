@@ -1,0 +1,57 @@
+<div class="auth-form">
+    <h2>Registrarse</h2>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="register-name">Nombre:</label>
+        <input type="text" id="register-name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="register-password">Contraseña:</label>
+        <input type="password" id="register-password" name="password" required>
+      </div>
+      <button type="submit">Registrarse</button>
+    </form>
+    <p id="registerMessage" class="message"></p>
+  </div>
+  
+  <script>
+  const registerForm = document.querySelector('#registerForm');
+  const registerMessage = document.querySelector('#registerMessage');
+  
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = registerForm.querySelector('#register-name').value;
+    const email = registerForm.querySelector('#register-email').value;
+    const password = registerForm.querySelector('#register-password').value;
+  
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        registerMessage.textContent = data.message;
+        registerMessage.className = 'message success';
+        registerForm.reset();
+      } else {
+        registerMessage.textContent = data.error;
+        registerMessage.className = 'message error';
+      }
+    } catch (error) {
+      registerMessage.textContent = 'Ocurrió un error. Por favor, intenta de nuevo.';
+      registerMessage.className = 'message error';
+    }
+  });
+  </script>
+  
+  

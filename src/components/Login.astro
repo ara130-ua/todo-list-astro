@@ -1,0 +1,52 @@
+<div class="auth-form">
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="login-email">Email:</label>
+        <input type="email" id="login-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Contraseña:</label>
+        <input type="password" id="login-password" name="password" required>
+      </div>
+      <button type="submit">Iniciar Sesión</button>
+    </form>
+    <p id="loginMessage" class="message"></p>
+  </div>
+  
+  <script>
+  const loginForm = document.querySelector('#loginForm');
+  const loginMessage = document.querySelector('#loginMessage');
+  
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = loginForm.querySelector('#login-email').value;
+    const password = loginForm.querySelector('#login-password').value;
+  
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        loginMessage.textContent = data.message;
+        loginMessage.className = 'message success';
+        // Aquí podrías redirigir al usuario a la página principal o actualizar el estado de la aplicación
+      } else {
+        loginMessage.textContent = data.error;
+        loginMessage.className = 'message error';
+      }
+    } catch (error) {
+      loginMessage.textContent = 'Ocurrió un error. Por favor, intenta de nuevo.';
+      loginMessage.className = 'message error';
+    }
+  });
+  </script>
+  
+  
