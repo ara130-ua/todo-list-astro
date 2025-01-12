@@ -72,5 +72,12 @@ import Register from '../components/Register.astro';
 		registerBtn.classList.add('active');
 		loginBtn.classList.remove('active');
 	});
+
+	window.addEventListener('switchToLogin', () => {
+    loginForm.style.display = 'block';
+    registerForm.style.display = 'none';
+    loginBtn.classList.add('active');
+    registerBtn.classList.remove('active');
+  });
 </script>
 

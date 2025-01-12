@@ -40,15 +40,25 @@
       const data = await response.json();
   
       if (response.ok) {
-        registerMessage.textContent = data.message;
+        registerMessage.textContent = data.message || 'Usuario registrado exitosamente.';
         registerMessage.className = 'message success';
-        registerForm.reset();
+
+        // Vaciar los campos
+        registerForm.querySelectorAll('input').forEach(input => input.value = '');
+
+        // Disparar evento para cambiar a la vista de login (adri a dicho que no es necesario)
+        /*const switchEvent = new CustomEvent('switchToLogin');
+        window.dispatchEvent(switchEvent);
+        */
+
+        //Aqui va el redirect a la pagina de todo_list
+
       } else {
-        registerMessage.textContent = data.error;
+        registerMessage.textContent = data.error || 'Error al registrar el usuario.';
         registerMessage.className = 'message error';
       }
     } catch (error) {
-      registerMessage.textContent = 'Ocurrió un error. Por favor, intenta de nuevo.';
+      registerMessage.textContent = 'Ocurrió un error inesperado. Por favor, intenta de nuevo.';
       registerMessage.className = 'message error';
     }
   });
