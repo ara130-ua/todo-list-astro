@@ -1,0 +1,15 @@
+---
+const { isLoggedIn } = Astro.props;
+---
+
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    {isLoggedIn ? (
+      <li><a href="/todo-list">Todo List</a></li>
+    ) : (
+      <li><a href="/login">Login</a></li>
+    )}
+  </ul>
+</nav>
+

@@ -1,25 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Login from '../components/Login.astro';
-import Register from '../components/Register.astro';
+import Navigation from '../components/Navigation.astro';
 ---
 
-<Layout title="Login/Registro - Lista de Tareas">
-	<main>
-		<h1>Bienvenido a la Lista de Tareas</h1>
-		<nav>
-			<button id="loginBtn" class="active">Iniciar Sesión</button>
-			<button id="registerBtn">Registrarse</button>
-		</nav>
-		<div id="authForms">
-			<div id="loginForm">
-				<Login />
-			</div>
-			<div id="registerForm" style="display: none;">
-				<Register />
-			</div>
-		</div>
-	</main>
+<Layout title="Welcome to Astro Todo">
+  <Navigation isLoggedIn={false} />
+  <main class="container">
+    <h1>Welcome to Astro Todo</h1>
+    <p>Please login to see your todo list.</p>
+    <a href="/login" class="btn">Login</a>
+  </main>
 </Layout>
 
 <style>

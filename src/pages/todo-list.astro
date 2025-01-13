@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import TodoItem from '../components/TodoItem.astro';
+
+// Simular datos de tareas (en una aplicación real, estos vendrían de una API)
+const todos = [];
+---
+
+<Layout title="Todo List - Astro Todo">
+  <Navigation isLoggedIn={true} />
+  <main class="container">
+    <h1 style="text-align: center;">Todo List</h1>
+    <form id="add-todo-form">
+      <input type="text" id="new-todo" placeholder="Add a new todo" style="width: 30%; margin-left: 20px;" required>
+      <button type="submit" style="width: 30%;" class="btn">Add Todo</button>
+    </form>
+    <div id="todo-list">
+      {todos.map(todo => <TodoItem todo={todo} />)}
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Verificar si el usuario está logueado
+  if (!localStorage.getItem('isLoggedIn')) {
+    window.location.href = '/login';
+  }
+
+  // Manejar la adición de nuevas tareas
+  document.getElementById('add-todo-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('new-todo');
+    const text = input.value.trim();
+    if (text) {
+      const newTodo = { 
+        id: Date.now(), 
+        text, 
+        completed: false, 
+        createdAt: new Date().toISOString() 
+      };
+      const todoItem = createTodoItem(newTodo);
+      document.getElementById('todo-list').appendChild(todoItem);
+      input.value = '';
+    }
+  });
+
+  // Manejar la eliminación y marcado de tareas como completadas
+  document.getElementById('todo-list').addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') {
+      e.target.closest('.todo-item').remove();
+    } else if (e.target.type === 'checkbox') {
+      const span = e.target.nextElementSibling;
+      span.style.textDecoration = e.target.checked ? 'line-through' : 'none';
+    }
+  });
+
+  // Función para crear un nuevo elemento de tarea
+  function createTodoItem(todo) {
+    const div = document.createElement('div');
+    div.className = 'todo-item';
+    div.style.marginTop = '15px';
+    div.innerHTML = `
+      <input style="margin-left: -800px; margin-right: -800px;" type="checkbox" ${todo.completed ? 'checked' : ''} data-id="${todo.id}">
+      <span style="margin-left: 20px;">${todo.text}</span>
+      <small style="margin-left: 100px;">${new Date(todo.createdAt).toLocaleString()}</small>
+      <button style="width: 150px; margin-left: 200px" class="btn" data-id="${todo.id}">Delete</button>
+    `;
+    return div;
+  }
+</script>
+

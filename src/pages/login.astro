@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+---
+
+<Layout title="Login - Astro Todo">
+  <Navigation isLoggedIn={false} />
+  <main class="container">
+    <h1>Login</h1>
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </main>
+</Layout>
+
+<script>
+  document.getElementById('login-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Simular login (en una aplicación real, esto se haría con una API)
+    localStorage.setItem('isLoggedIn', 'true');
+    window.location.href = '/todo-list';
+  });
+</script>
+

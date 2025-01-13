@@ -1,0 +1,25 @@
+---
+const { todo } = Astro.props;
+---
+
+<div class="todo-item">
+  <span style="margin-left: 20px;">{todo.text}</span>
+  <small>{new Date(todo.createdAt).toLocaleString()}</small>
+  <button class="btn" style="width: 150px;" data-id={todo.id}>Delete</button>
+  <input style="margin-right: -800px;" type="checkbox" checked={todo.completed} data-id={todo.id}>
+</div>
+
+<style>
+  .todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  small {
+    color: #777;
+    margin-left: 10px;
+    text-align: center;
+  }
+</style>
+
