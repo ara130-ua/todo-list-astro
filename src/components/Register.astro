@@ -22,46 +22,54 @@
   const registerForm = document.querySelector('#registerForm');
   const registerMessage = document.querySelector('#registerMessage');
   
-  registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = registerForm.querySelector('#register-name').value;
-    const email = registerForm.querySelector('#register-email').value;
-    const password = registerForm.querySelector('#register-password').value;
-  
-    try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        registerMessage.textContent = data.message || 'Usuario registrado exitosamente.';
-        registerMessage.className = 'message success';
+  if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = registerForm.querySelector('#register-name').value;
+      const email = registerForm.querySelector('#register-email').value;
+      const password = registerForm.querySelector('#register-password').value;
+    
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+    
+        const data = await response.json();
+    
+        if (response.ok) {
+          if(registerMessage){
+            registerMessage.textContent = data.message || 'Usuario registrado exitosamente.';
+            registerMessage.className = 'message success';
+          }
 
-        // Vaciar los campos
-        registerForm.querySelectorAll('input').forEach(input => input.value = '');
+          // Vaciar los campos
+          registerForm.querySelectorAll('input').forEach(input => input.value = '');
 
-        // Disparar evento para cambiar a la vista de login (adri a dicho que no es necesario)
-        /*const switchEvent = new CustomEvent('switchToLogin');
-        window.dispatchEvent(switchEvent);
-        */
+          // Disparar evento para cambiar a la vista de login (adri a dicho que no es necesario)
+          /*const switchEvent = new CustomEvent('switchToLogin');
+          window.dispatchEvent(switchEvent);
+          */
 
-        //Aqui va el redirect a la pagina de todo_list
+          //Aqui va el redirect a la pagina de todo_list
 
-      } else {
-        registerMessage.textContent = data.error || 'Error al registrar el usuario.';
-        registerMessage.className = 'message error';
+        } else {
+          if (registerMessage){
+            registerMessage.textContent = data.error || 'Error al registrar el usuario.';
+            registerMessage.className = 'message error';
+          }
+        }
+      } catch (error) {
+        if (registerMessage){
+          registerMessage.textContent = 'Ocurrió un error inesperado. Por favor, intenta de nuevo.';
+          registerMessage.className = 'message error';
+        }
       }
-    } catch (error) {
-      registerMessage.textContent = 'Ocurrió un error inesperado. Por favor, intenta de nuevo.';
-      registerMessage.className = 'message error';
+    });
     }
-  });
   </script>
   
   
